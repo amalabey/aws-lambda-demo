@@ -8,7 +8,7 @@ using Xunit;
 using Amazon.Lambda.TestUtilities;
 using Amazon.Lambda.APIGatewayEvents;
 
-namespace HelloWorld.Tests
+namespace COVIDSafe.Tests
 {
   public class FunctionTest
   {
@@ -26,7 +26,7 @@ namespace HelloWorld.Tests
     }
 
     [Fact]
-    public async Task TestHelloWorldFunctionHandler()
+    public async Task TestCOVIDSafeFunctionHandler()
     {
             var request = new APIGatewayProxyRequest();
             var context = new TestLambdaContext();

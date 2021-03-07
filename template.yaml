@@ -18,19 +18,19 @@ Resources:
         Variables:
           PARAM1: VALUE
       Events:
-        HelloWorld:
+        LocationRequest:
           Type: Api
           Properties:
             Path: /location
             Method: get
 
 Outputs:
-  HelloWorldApi:
-    Description: "API Gateway endpoint URL for Prod stage for Hello World function"
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/hello/"
-  HelloWorldFunction:
-    Description: "Hello World Lambda Function ARN"
-    Value: !GetAtt HelloWorldFunction.Arn
-  HelloWorldFunctionIamRole:
-    Description: "Implicit IAM Role created for Hello World function"
-    Value: !GetAtt HelloWorldFunctionRole.Arn
+  COVIDSafeApi:
+    Description: "API Gateway endpoint URL for Prod stage for COVIDSafe function"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/location/"
+  COVIDSafeFunction:
+    Description: "COVIDSafe Lambda Function ARN"
+    Value: !GetAtt COVIDSafeFormRenderFunction.Arn
+  COVIDSafeFunctionIamRole:
+    Description: "Implicit IAM Role created for COVIDSafe function"
+    Value: !GetAtt COVIDSafeFormRenderFunction.Arn

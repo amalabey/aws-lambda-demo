@@ -1,0 +1,21 @@
+{
+    "configurations": [
+        {
+            "type": "aws-sam",
+            "request": "direct-invoke",
+            "name": "API aws-lambda-demo:COVIDSafeFormRenderFunction",
+            "invokeTarget": {
+                "target": "api",
+                "templatePath": "template.yaml",
+                "logicalId": "COVIDSafeFormRenderFunction"
+            },
+            "api": {
+                "path": "/location?id=2b2851e3-55fc-4b07-86eb-eeceaf99ade7",
+                "httpMethod": "get",
+                "payload": {
+                    "json": {}
+                }
+            }
+        }
+    ]
+}

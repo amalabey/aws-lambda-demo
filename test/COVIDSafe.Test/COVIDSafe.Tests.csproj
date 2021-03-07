@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\HelloWorld\HelloWorld.csproj" />
+    <ProjectReference Include="..\..\src\COVIDSafe\COVIDSafe.csproj" />
   </ItemGroup>
 
 </Project>

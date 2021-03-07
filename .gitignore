@@ -3,6 +3,7 @@
 
 
 .aws-sam
+.vsdbg
 
 ### DotSettings ###
 *.DotSettings
