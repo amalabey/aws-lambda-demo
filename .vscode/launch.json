@@ -3,6 +3,27 @@
         {
             "type": "aws-sam",
             "request": "direct-invoke",
+            "name": "API aws-lambda-demo:COVIDSafeRegisterFunction",
+            "invokeTarget": {
+                "target": "api",
+                "templatePath": "template.yaml",
+                "logicalId": "COVIDSafeRegisterFunction"
+            },
+            "api": {
+                "path": "/register",
+                "httpMethod": "post",
+                "payload": {
+                    "json": {
+                        "locationId": "testsfasdf",
+                        "name": "john doe",
+                        "phone": "0342423234"
+                    }
+                }
+            }
+        },
+        {
+            "type": "aws-sam",
+            "request": "direct-invoke",
             "name": "API aws-lambda-demo:COVIDSafeFormRenderFunction",
             "invokeTarget": {
                 "target": "api",

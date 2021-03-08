@@ -4,6 +4,7 @@
 
 .aws-sam
 .vsdbg
+samconfig.toml
 
 ### DotSettings ###
 *.DotSettings

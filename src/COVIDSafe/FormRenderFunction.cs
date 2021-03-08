@@ -13,6 +13,7 @@ namespace COVIDSafe
 {
     public class FormRenderFunction
     {
+        private const string LOCATIONS_TABLE_NAME = "aa-covidsafe-locations";
         private readonly AmazonDynamoDBClient _dynamoDbClient = new AmazonDynamoDBClient();
 
         public async Task<APIGatewayProxyResponse> FunctionHandler(APIGatewayProxyRequest apigProxyEvent, ILambdaContext context)
@@ -32,11 +33,12 @@ namespace COVIDSafe
 
         private async Task<Document> GetLocationNameAsync(string locationId)
         {
-            var locationsTable = Table.LoadTable(_dynamoDbClient, "COVIDSafeLocationsTest");
-
+            LambdaLogger.Log($"Location id: {locationId}");
+            var locationsTable = Table.LoadTable(_dynamoDbClient, LOCATIONS_TABLE_NAME);
+            LambdaLogger.Log($"LocationsTable null?: {locationsTable == null}");
             var hash = new Primitive(locationId, false);
             var locationItem = await locationsTable.GetItemAsync(hash);
-
+            LambdaLogger.Log($"Retrieved item from dynamodb: {locationItem}");
             return locationItem;
         }
     }

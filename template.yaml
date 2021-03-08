@@ -6,11 +6,56 @@ Description: >
 Globals:
   Function:
     Timeout: 10
+  Api:
+    Cors: 
+      AllowMethods: "'OPTIONS,POST'"
+      AllowHeaders: "'Content-Type'"
+      AllowOrigin: "'*'" 
 
 Resources:
+  COVIDSafeLocationsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: "locationId"
+          AttributeType: "S"
+      KeySchema:
+        - AttributeName: "locationId"
+          KeyType: "HASH"
+      TableName: "aa-covidsafe-locations"
+      BillingMode: PAY_PER_REQUEST
+  COVIDSafeApiDynamoDbAccessRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: COVIDSafeApiDynamoDbAccessRole
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action:
+            - sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service:
+              - lambda.amazonaws.com
+        Version: 2012-10-17
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AWSLambdaExecute
+      Policies:
+        - PolicyName: AccessToDynamoDb
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action: '*'
+                Resource: !GetAtt
+                  - COVIDSafeLocationsTable
+                  - Arn
+      Path: /
   COVIDSafeFormRenderFunction:
     Type: AWS::Serverless::Function
     Properties:
+      Role: !GetAtt
+        - COVIDSafeApiDynamoDbAccessRole
+        - Arn
       CodeUri: ./src/COVIDSafe/
       Handler: COVIDSafe::COVIDSafe.FormRenderFunction::FunctionHandler
       Runtime: dotnetcore3.1
@@ -23,7 +68,24 @@ Resources:
           Properties:
             Path: /location
             Method: get
-
+  COVIDSafeRegisterFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Role: !GetAtt
+        - COVIDSafeApiDynamoDbAccessRole
+        - Arn
+      CodeUri: ./src/COVIDSafe/
+      Handler: COVIDSafe::COVIDSafe.RegisterFunction::FunctionHandler
+      Runtime: dotnetcore3.1
+      Environment:
+        Variables:
+          PARAM1: VALUE
+      Events:
+        RegisterRequest:
+          Type: Api
+          Properties:
+            Path: /register
+            Method: post
 Outputs:
   COVIDSafeApi:
     Description: "API Gateway endpoint URL for Prod stage for COVIDSafe function"
