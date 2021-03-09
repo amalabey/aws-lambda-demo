@@ -55,8 +55,7 @@ namespace COVIDSafe
 
         private string RenderRegistrationForm(string locationId, string locationName, string submitUrl)
         {
-            string formTemplate = @"
-            <html>
+            string formTemplate = @"<html>
             <head>
                 <meta content='text/html;charset=utf-8' http-equiv='Content-Type'>
                 <meta content='utf-8' http-equiv='encoding'>
@@ -68,26 +67,28 @@ namespace COVIDSafe
                 <form>
                     <h3> You are visiting {{locationName}} </h3>
                     <p> Please register using below form. </p>
-                    <input type='hidden' id='locationId' value={{locationId}}/><br/>
+                    <input type='hidden' id='locationId' value='{{locationId}}' /><br/>
                     <div class='form-group'>
-                        <label for='fullName'>Name:</label>
-                        <input type='text' id='fullName' placeholder='Enter full name' class='form-control'><br/>
+                        <label for='fullName' >Name:</label>
+                        <input type='text' id='fullName' placeholder='Enter full name' class='form-control' style='width: 300px;'><br/>
                     </div>
                     <div class='form-group'>
                         <label for='phone'>Phone:</label>
-                        <input type='text' id='phone' placeholder='Phone number' class='form-control'><br/>
+                        <input type='text' id='phone' placeholder='Phone number' class='form-control' style='width: 200px;'><br/>
                     </div>
                     <button id='submit' type='submit' class='btn btn-primary'>Submit</button>
                 </form>
                 <script>
                     const submit = document.querySelector('#submit')
+                    const locationId = document.querySelector('#locationId')
                     const fullName = document.querySelector('#fullName')
                     const phone = document.querySelector('#phone')
 
                     submit.onclick = (e) => {
                         e.preventDefault();
                         axios.post('{{submitUrl}}', {
-                            name: fullName.value,
+                            locationId: locationId.value,
+                            fullName: fullName.value,
                             phone: phone.value
                         },
                         {

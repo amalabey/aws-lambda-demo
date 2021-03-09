@@ -24,10 +24,25 @@ Resources:
           KeyType: "HASH"
       TableName: "aa-covidsafe-locations"
       BillingMode: PAY_PER_REQUEST
-  COVIDSafeApiDynamoDbAccessRole:
+  COVIDSafeRegistrationsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: "locationId"
+          AttributeType: "S"
+        - AttributeName: "visitId"
+          AttributeType: "S"
+      KeySchema:
+        - AttributeName: "locationId"
+          KeyType: "HASH"
+        - AttributeName: "visitId"
+          KeyType: "RANGE"
+      TableName: "aa-covidsafe-registrations"
+      BillingMode: PAY_PER_REQUEST
+  COVIDSafeFormRenderFunctionRole:
     Type: AWS::IAM::Role
     Properties:
-      RoleName: COVIDSafeApiDynamoDbAccessRole
+      RoleName: COVIDSafeFormRenderFunctionRole
       AssumeRolePolicyDocument:
         Statement:
           - Action:
@@ -40,7 +55,7 @@ Resources:
       ManagedPolicyArns:
         - arn:aws:iam::aws:policy/AWSLambdaExecute
       Policies:
-        - PolicyName: AccessToDynamoDb
+        - PolicyName: AccessToDynamoDbLocationsTable
           PolicyDocument:
             Version: "2012-10-17"
             Statement:
@@ -50,11 +65,37 @@ Resources:
                   - COVIDSafeLocationsTable
                   - Arn
       Path: /
+  COVIDSafeRegistrationFunctionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: COVIDSafeRegistrationFunctionRole
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action:
+            - sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service:
+              - lambda.amazonaws.com
+        Version: 2012-10-17
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AWSLambdaExecute
+      Policies:
+        - PolicyName: AccessToDynamoDbRegistrationsTable
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action: '*'
+                Resource: !GetAtt
+                  - COVIDSafeRegistrationsTable
+                  - Arn
+      Path: /
   COVIDSafeFormRenderFunction:
     Type: AWS::Serverless::Function
     Properties:
       Role: !GetAtt
-        - COVIDSafeApiDynamoDbAccessRole
+        - COVIDSafeFormRenderFunctionRole
         - Arn
       CodeUri: ./src/COVIDSafe/
       Handler: COVIDSafe::COVIDSafe.FormRenderFunction::FunctionHandler
@@ -73,7 +114,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Role: !GetAtt
-        - COVIDSafeApiDynamoDbAccessRole
+        - COVIDSafeRegistrationFunctionRole
         - Arn
       CodeUri: ./src/COVIDSafe/
       Handler: COVIDSafe::COVIDSafe.RegisterFunction::FunctionHandler
