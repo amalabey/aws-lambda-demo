@@ -139,7 +139,7 @@ Resources:
 Outputs:
   COVIDSafeApi:
     Description: "API Gateway endpoint URL for Prod stage for COVIDSafe function"
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/location/"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/location?id=f0605b10-9ff9-44fb-87e7-dd7fc52eb4b2"
   COVIDSafeFunction:
     Description: "COVIDSafe Lambda Function ARN"
     Value: !GetAtt COVIDSafeFormRenderFunction.Arn
