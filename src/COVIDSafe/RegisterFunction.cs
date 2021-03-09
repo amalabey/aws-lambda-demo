@@ -22,7 +22,7 @@ namespace COVIDSafe
             LambdaLogger.Log($"visit data: {apigProxyEvent.Body}");
             var visitData = JsonConvert.DeserializeObject<Dictionary<string, string>>(apigProxyEvent.Body);
             
-            await RegisterVisit(visitData["locationId"], visitData["fullName"], visitData["phone"]);
+            await RegisterVisit(visitData["locationId"], visitData["locationName"], visitData["fullName"], visitData["phone"]);
             return new APIGatewayProxyResponse
             {
                 Body = "{status:'Success'}",
@@ -31,7 +31,7 @@ namespace COVIDSafe
             };
         }
 
-        private async Task RegisterVisit(string locationId, string fullName, string phone)
+        private async Task RegisterVisit(string locationId, string locationName, string fullName, string phone)
         {
             var timestamp = DateTime.UtcNow.ToString("yyyyMMddHHmmssffff");
 
@@ -41,10 +41,11 @@ namespace COVIDSafe
                 Item = new Dictionary<string, AttributeValue>
                 {
                     { "locationId", new AttributeValue { S = locationId }},
+                    { "locationName", new AttributeValue { S = locationName }},
                     { "visitId", new AttributeValue { S = $"{phone}-{timestamp}" }},
-                    { "timestamp", new AttributeValue { S = timestamp }},
+                    { "timestamp", new AttributeValue { N = timestamp }},
                     { "fullName", new AttributeValue { S = fullName }},
-                    { "phone", new AttributeValue { S = "phone" }}
+                    { "phone", new AttributeValue { S = phone }}
                 }
             };
             await _dynamoDbClient.PutItemAsync(request);

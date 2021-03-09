@@ -1,7 +1,7 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: >
-  Sample SAM Template for aws-lambda-demo
+  Sample Lambda that uses DynamoDB
 
 Globals:
   Function:
@@ -100,10 +100,6 @@ Resources:
       CodeUri: ./src/COVIDSafe/
       Handler: COVIDSafe::COVIDSafe.FormRenderFunction::FunctionHandler
       Runtime: dotnetcore3.1
-      Environment:
-        Variables:
-          PARAM1: VALUE
-          #REGISTRATION_URL: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/register"
       Events:
         LocationRequest:
           Type: Api
@@ -119,15 +115,27 @@ Resources:
       CodeUri: ./src/COVIDSafe/
       Handler: COVIDSafe::COVIDSafe.RegisterFunction::FunctionHandler
       Runtime: dotnetcore3.1
-      Environment:
-        Variables:
-          PARAM1: VALUE
       Events:
         RegisterRequest:
           Type: Api
           Properties:
             Path: /register
             Method: post
+  COVIDSafeQueryFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Role: !GetAtt
+        - COVIDSafeRegistrationFunctionRole
+        - Arn
+      CodeUri: ./src/COVIDSafe/
+      Handler: COVIDSafe::COVIDSafe.QueryFunction::FunctionHandler
+      Runtime: dotnetcore3.1
+      Events:
+        RegisterRequest:
+          Type: Api
+          Properties:
+            Path: /query
+            Method: get
 Outputs:
   COVIDSafeApi:
     Description: "API Gateway endpoint URL for Prod stage for COVIDSafe function"

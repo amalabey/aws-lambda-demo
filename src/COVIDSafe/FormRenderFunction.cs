@@ -68,6 +68,7 @@ namespace COVIDSafe
                     <h3> You are visiting {{locationName}} </h3>
                     <p> Please register using below form. </p>
                     <input type='hidden' id='locationId' value='{{locationId}}' /><br/>
+                    <input type='hidden' id='locationName' value='{{locationName}}' /><br/>
                     <div class='form-group'>
                         <label for='fullName' >Name:</label>
                         <input type='text' id='fullName' placeholder='Enter full name' class='form-control' style='width: 300px;'><br/>
@@ -81,6 +82,7 @@ namespace COVIDSafe
                 <script>
                     const submit = document.querySelector('#submit')
                     const locationId = document.querySelector('#locationId')
+                    const locationName = document.querySelector('#locationName')
                     const fullName = document.querySelector('#fullName')
                     const phone = document.querySelector('#phone')
 
@@ -88,6 +90,7 @@ namespace COVIDSafe
                         e.preventDefault();
                         axios.post('{{submitUrl}}', {
                             locationId: locationId.value,
+                            locationName: locationName.value,
                             fullName: fullName.value,
                             phone: phone.value
                         },
