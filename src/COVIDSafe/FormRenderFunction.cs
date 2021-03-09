@@ -74,7 +74,7 @@ namespace COVIDSafe
                     </div>
                     <div class='form-group'>
                         <label for='phone'>Phone:</label>
-                        <input type='text' id='phone' placeholder='Phone number' class='form-control' style='width: 200px;'><br/>
+                        <input type='text' id='phone' placeholder='Phone number' class='form-control' style='width: 300px;'><br/>
                     </div>
                     <button id='submit' type='submit' class='btn btn-primary'>Submit</button>
                 </form>
