@@ -2,9 +2,9 @@
 Demonstrates AWS Lambda with a DynamoDB backend developed using SAM cli/template.  
 
 Example Scenario:  
-```
-In a Covid-Safe office environment, we need to track the movements of staff around the office. Imagine QR codes are installed on every desk, in meeting rooms, and in lunch rooms. The QR Code has the form of a base URL, followed by a Guid that is a unique identifier for that location (e.g. https://yourlambda.amazonaws.com/Prod/LocationId= 69ec46cb-6e87-41af-a020-c693fa9553b9), meeting room or lunch room. Users are expected to use their phones to be redirected to a website that calls an API to register that they were there. The API records the users name and phone number and the time they registered. The API can then be queried by date, or by location guid in order to see where people had been.
-```
+
+*In a Covid-Safe office environment, we need to track the movements of staff around the office. Imagine QR codes are installed on every desk, in meeting rooms, and in lunch rooms. The QR Code has the form of a base URL, followed by a Guid that is a unique identifier for that location (e.g. https://yourlambda.amazonaws.com/Prod/LocationId= 69ec46cb-6e87-41af-a020-c693fa9553b9), meeting room or lunch room. Users are expected to use their phones to be redirected to a website that calls an API to register that they were there. The API records the users name and phone number and the time they registered. The API can then be queried by date, or by location guid in order to see where people had been.*
+
 
 # How To Develop
 
