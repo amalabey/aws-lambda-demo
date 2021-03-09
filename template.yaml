@@ -5,7 +5,7 @@ Description: >
 
 Globals:
   Function:
-    Timeout: 10
+    Timeout: 60
   Api:
     Cors: 
       AllowMethods: "'OPTIONS,POST'"
@@ -62,6 +62,7 @@ Resources:
       Environment:
         Variables:
           PARAM1: VALUE
+          #REGISTRATION_URL: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/register"
       Events:
         LocationRequest:
           Type: Api
