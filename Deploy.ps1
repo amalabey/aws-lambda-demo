@@ -1,5 +1,9 @@
 [CmdletBinding()]
 param (
+    [Parameter(Mandatory=$True)]
+    [string]$StackName,
+    [Parameter()]
+    [string]$Region = "us-east-1",
     [Parameter()]
     [switch]$Build,
     [Parameter()]
@@ -13,7 +17,10 @@ if ($Build -eq $True) {
 }
 
 Write-Host "Deploying SAM template"
-sam deploy --capabilities CAPABILITY_NAMED_IAM
+sam deploy --stack-name $StackName `
+    --resolve-s3 `
+    --no-confirm-changeset `
+    --capabilities CAPABILITY_NAMED_IAM
 
 if($SeedTestData -eq $True) {
     Write-Host "Adding test data"

@@ -15,7 +15,7 @@ Refer [here](HowToDev.md) for instructions on how to develop using AWS SAM.
 
 - Deploy the application by running below command. You need to have AWS CLI credentials configured before running the command.
 ```
-.\Deploy.ps1 -Build -SeedTestData
+.\Deploy.ps1 -StackName "<your stack name>" -Build -SeedTestData
 ```
 
 - Visit below url to access the registration form:  
